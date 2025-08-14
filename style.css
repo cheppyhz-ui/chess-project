@@ -477,3 +477,59 @@ body {
 .theme-hacker .theme-btn.active { border-color: #00ff00; }
 .theme-hacker h3, .theme-hacker #info-giliran { text-shadow: 0 0 5px #00ff00; }
 .theme-hacker .dialog-box { background-color: #000; border: 1px solid #00ff00; box-shadow: 0 0 20px #00ff00; color: #00ff00; }
+
+/* =================================================================== */
+/* === RESPONSIVE DESIGN UNTUK LAYAR KECIL (HP) ====================== */
+/* =================================================================== */
+
+@media (max-width: 960px) {
+
+    /* Tata letak utama diubah menjadi atas-bawah */
+    .game-layout {
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        padding: 10px;
+        gap: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Ukuran papan catur dibuat fleksibel */
+    .board-area, #papan-catur {
+        width: 95vw; /* 95% dari lebar layar */
+        height: 95vw; /* Ukuran tinggi sama dengan lebar agar tetap persegi */
+        max-width: 560px; /* Batas maksimal agar tidak terlalu besar di tablet */
+        max-height: 560px;
+    }
+
+    /* Ukuran panel samping disesuaikan */
+    .side-panel {
+        width: 95vw;
+        max-width: 560px;
+        height: auto; /* Tinggi otomatis */
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    /* Beri tinggi maksimal pada riwayat agar tidak memanjangkan halaman */
+    #daftar-riwayat {
+        max-height: 150px;
+    }
+
+    /* Sesuaikan ukuran font di menu utama agar tidak terlalu besar */
+    .game-title {
+        font-size: 3.5em;
+    }
+    .game-subtitle {
+        font-size: 1em;
+    }
+    .main-menu-container {
+        padding: 30px;
+        width: 80%;
+    }
+
+    /* Pastikan dialog box juga terlihat bagus */
+    .dialog-box {
+        width: 85%;
+    }
+}
