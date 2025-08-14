@@ -1,0 +1,479 @@
+/* --- Import Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&family=Lato&family=VT323&display=swap');
+
+/* =================================================================== */
+/* === GAYA DASAR & TATA LETAK UNIVERSAL ============================= */
+/* =================================================================== */
+
+:root {
+    --board-size: 560px; /* 8 x 70px */
+    --panel-width: 340px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+/* Halaman Awal (Main Menu) */
+#initial-screen {
+    background: url('images/background-menu.jpg') no-repeat center center/cover;
+}
+
+.main-menu-container {
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 40px 60px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.game-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 6em;
+    margin: 0;
+    letter-spacing: 0.1em;
+    text-shadow: 4px 4px 10px rgba(0,0,0,0.5);
+}
+
+.game-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2em;
+    opacity: 0.8;
+    margin: -10px 0 30px 0;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-btn {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.menu-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+#btn-start-flow {
+    background: #fff;
+    color: #333;
+}
+
+#btn-start-flow:hover {
+    background: #f0f0f0;
+}
+
+.menu-btn.secondary {
+    background: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.menu-btn.secondary:hover {
+    background: #fff;
+    color: #333;
+}
+
+/* Overlay & Dialog Box */
+.overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    transition: opacity 0.3s ease;
+}
+
+.overlay-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dialog-box {
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    min-width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.overlay-container.hidden .dialog-box {
+    transform: scale(0.9);
+}
+
+.dialog-box h3 {
+    margin-top: 0;
+    font-size: 1.5em;
+}
+
+.dialog-box p {
+    margin-top: -10px;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+.dialog-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dialog-buttons button,
+.dialog-close-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+}
+
+.dialog-close-btn {
+    margin-top: 20px;
+}
+
+.pilihan-bidak {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pilihan-bidak img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.1);
+    padding: 5px;
+}
+
+.pilihan-bidak img:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
+}
+
+/* Tata Letak Halaman Game */
+.game-layout {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    padding: 20px;
+}
+
+.board-area {
+    width: var(--board-size);
+    height: var(--board-size);
+}
+
+#papan-catur {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    height: 100%;
+}
+
+.kotak {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.kotak img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.side-panel {
+    width: var(--panel-width);
+    height: var(--board-size);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.theme-selector {
+    display: flex;
+    gap: 5px;
+}
+
+.theme-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s ease;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1)
+}
+
+.captured-pieces-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.captured-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 4px;
+    min-height: 64px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.captured-box img {
+    width: 26px;
+    height: 26px;
+}
+
+.history-area {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+#daftar-riwayat {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 5px 10px 5px 5px;
+    margin: 0;
+    scrollbar-width: thin;
+}
+
+#daftar-riwayat::-webkit-scrollbar {
+    width: 6px
+}
+
+#daftar-riwayat::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, .1)
+}
+
+#daftar-riwayat::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .3);
+    border-radius: 3px
+}
+
+#daftar-riwayat li {
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    align-items: center;
+    padding: 4px 0
+}
+
+#daftar-riwayat span:first-child {
+    text-align: right;
+    margin-right: 10px;
+    opacity: .7
+}
+
+.papan-sibuk {
+    pointer-events: none
+}
+
+/* Animasi Bidak */
+.bidak-terbang {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    width: 62px;
+    height: 62px;
+    animation-name: fly-arc;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes fly-arc {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    40% {
+        transform: translate(var(--dx-mid), calc(var(--dy-mid) - 50px)) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--dx-end), var(--dy-end)) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes animasi-dimakan {
+    from {
+        transform: scale(1)
+    }
+    to {
+        transform: scale(0);
+        opacity: 0
+    }
+}
+
+.terkena-makan {
+    animation: animasi-dimakan 0.3s forwards;
+}
+
+@keyframes animasi-menang {
+    0% {
+        transform: translateY(0) scale(1)
+    }
+    50% {
+        transform: translateY(-20px) scale(1.2)
+    }
+    100% {
+        transform: translateY(0) scale(1)
+    }
+}
+
+.bidak-pemenang {
+    animation: animasi-menang 0.6s ease-in-out;
+}
+
+
+/* =================================================================== */
+/* === TEMA 1: PREMIUM (Default) ===================================== */
+/* =================================================================== */
+.theme-default body {
+    font-family: 'Poppins', sans-serif;
+    background: url('https://images.unsplash.com/photo-1582925250462-d012a22ef727?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w1NTA3fDB8MXxzZWFyY2h8MTF8fGNoZXNzJTIwZGFya3xlbnwwfHx8fDE3MjM2MDc3MDN8MA&ixlib=rb-4.0.3&q=80&w=1920') no-repeat center center/cover;
+    position: relative;
+}
+.theme-default body::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(20, 20, 20, 0.7); z-index: -1;
+}
+.theme-default #papan-catur { border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+.theme-default .terang { background-color: #D2B48C; }
+.theme-default .gelap { background-color: #8B4513; }
+.theme-default .terpilih { box-shadow: inset 0 0 0 5px #FFD700; }
+.theme-default .gerakan-sah::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: rgba(255, 215, 0, 0.4); }
+@keyframes skak-pulse { 0%{box-shadow: inset 0 0 25px 5px rgba(255,50,50,0.5)} 50%{box-shadow: inset 0 0 25px 10px rgba(255,50,50,0.8)} 100%{box-shadow: inset 0 0 25px 5px rgba(255,50,50,0.5)} }
+.theme-default .skak { animation: skak-pulse 1.5s infinite; }
+.theme-default .kotak img { filter: drop-shadow(3px 3px 5px rgba(0,0,0,0.5)); transition: transform 0.2s ease; }
+.theme-default .kotak:hover img { transform: scale(1.05); }
+.theme-default .side-panel { background: rgba(30, 30, 30, 0.6); backdrop-filter: blur(15px) saturate(120%); -webkit-backdrop-filter: blur(15px) saturate(120%); border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; color: #f0f2f5; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+.theme-default #tombol-game-baru, .theme-default #btn-back-to-menu { background: linear-gradient(45deg, #FFD700, #FFA500); color: #222; border: none; border-radius: 8px; padding: 10px 18px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: all .2s ease; }
+.theme-default #tombol-game-baru:hover, .theme-default #btn-back-to-menu:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+.theme-default .theme-btn { background: rgba(255,255,255,0.1); border-color: transparent; color: #fff; }
+.theme-default .theme-btn.active { border-color: #FFD700; background-color: rgba(255, 215, 0, 0.2); }
+.theme-default #info-giliran { font-size: 1.1em; font-weight: 600; text-align: center; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; }
+.theme-default .captured-box { background: rgba(0,0,0,0.2); }
+.theme-default .captured-box img { opacity: .8; }
+.theme-default .history-area { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+.theme-default .history-area h3 { margin: 0 0 10px 0; text-align: center; font-weight: 600; }
+.theme-default #daftar-riwayat li { font-family: 'Lato', sans-serif; padding: 2px 5px; }
+.theme-default #daftar-riwayat li:nth-child(odd) { background-color: rgba(0,0,0,0.2); border-radius: 4px; }
+.theme-default .dialog-box { background: rgba(30, 30, 30, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.5); color: #fff; }
+.theme-default .dialog-box button { background:#fff; color:#333; border:none; border-radius:8px }
+
+/* =================================================================== */
+/* === TEMA 2: KLASIK ================================================ */
+/* =================================================================== */
+.theme-classic body { font-family: 'Lato', sans-serif; background-color: #3d2c1d; color: #f5f5f5; }
+.theme-classic #papan-catur { border: 8px solid #6b4c35; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+.theme-classic .terang { background-color: #e3dcd2; }
+.theme-classic .gelap { background-color: #8b5e3c; }
+.theme-classic .terpilih { box-shadow: inset 0 0 0 5px #c5a157; }
+.theme-classic .gerakan-sah::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: rgba(197, 161, 87, 0.5); }
+.theme-classic .side-panel { background-color: #5a3e2b; border: 1px solid #6b4c35; border-radius: 8px; padding: 20px; }
+.theme-classic #tombol-game-baru, .theme-classic #btn-back-to-menu { background-color: #c5a157; color: #211a13; border: 1px solid #e0c58f; border-radius: 4px; padding: 10px 18px; font-weight: 600; }
+.theme-classic .theme-btn { background-color: #6b4c35; color: #fff; }
+.theme-classic .theme-btn.active { border-color: #c5a157; }
+.theme-classic h3 { font-family: 'Playfair Display', serif; border-bottom: 1px solid #6b4c35; padding-bottom: 10px; }
+.theme-classic .captured-box { background-color: rgba(0,0,0,0.2); }
+.theme-classic #daftar-riwayat li:nth-child(odd) { background-color: rgba(0,0,0,0.2); }
+.theme-classic .dialog-box { background-color: #5a3e2b; border: 2px solid #c5a157; color: #fff; }
+
+/* =================================================================== */
+/* === TEMA 3: MINIMALIS (Neumorphism) =============================== */
+/* =================================================================== */
+.theme-minimalist body { font-family: 'Poppins', sans-serif; background-color: #e0e5ec; color: #5b667a; }
+.theme-minimalist #papan-catur { border-radius: 15px; background: #e0e5ec; box-shadow: 10px 10px 20px #a3b1c6, -10px -10px 20px #ffffff; }
+.theme-minimalist .terang { background: #e0e5ec; }
+.theme-minimalist .gelap { background: #c8d0e0; }
+.theme-minimalist .kotak img { filter: drop-shadow(4px 4px 6px rgba(163, 177, 198, 0.6));}
+.theme-minimalist .terpilih { box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff; }
+.theme-minimalist .gerakan-sah::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: rgba(91, 102, 122, 0.4); }
+.theme-minimalist .side-panel { background: #e0e5ec; border-radius: 15px; box-shadow: 7px 7px 15px #a3b1c6, -7px -7px 15px #ffffff; padding: 20px; }
+.theme-minimalist #tombol-game-baru, .theme-minimalist #btn-back-to-menu, .theme-minimalist .theme-btn { background: #e0e5ec; border: none; color: #5b667a; box-shadow: 4px 4px 10px #a3b1c6, -4px -4px 10px #ffffff; padding: 10px 18px; border-radius: 8px; }
+.theme-minimalist .theme-btn.active { box-shadow: inset 4px 4px 10px #a3b1c6, inset -4px -4px 10px #ffffff; }
+.theme-minimalist h3 { color: #3d4757; }
+.theme-minimalist .captured-box { background-color: #d1d9e6; box-shadow: inset 2px 2px 5px #b8b9be, inset -2px -2px 5px #fff; }
+.theme-minimalist .dialog-box { background: #e0e5ec; color: #5b667a; border-radius: 20px; box-shadow: 10px 10px 20px #a3b1c6, -10px -10px 20px #ffffff; }
+.theme-minimalist .pilihan-bidak img { background: #e0e5ec; box-shadow: 4px 4px 10px #a3b1c6, -4px -4px 10px #ffffff; }
+
+/* =================================================================== */
+/* === TEMA 4: HACKER ================================================ */
+/* =================================================================== */
+.theme-hacker body { font-family: 'VT323', monospace; background-color: #000000; color: #00ff00; }
+.theme-hacker .kotak img { filter: grayscale(1) sepia(100%) hue-rotate(55deg) saturate(500%) brightness(1.2); }
+.theme-hacker #papan-catur { border: 2px solid #00ff00; box-shadow: 0 0 15px #00ff00; }
+.theme-hacker .terang { background: #002e00; }
+.theme-hacker .gelap { background: #001a00; }
+.theme-hacker .terpilih { background-color: #00ff00; animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { background-color: transparent; } }
+.theme-hacker .gerakan-sah::after { content: ''; position: absolute; width: 20px; height: 20px; border-radius: 50%; background-color: rgba(0, 255, 0, 0.5); border: 1px solid #00ff00; }
+.theme-hacker .side-panel { background-color: #051a05; border: 1px solid #00ff00; padding: 20px; }
+.theme-hacker #tombol-game-baru, .theme-hacker #btn-back-to-menu { background-color: #00ff00; color: #000000; border: none; font-family: 'VT323', monospace; font-size: 1.2em; border-radius: 0; }
+.theme-hacker .theme-btn.active { border-color: #00ff00; }
+.theme-hacker h3, .theme-hacker #info-giliran { text-shadow: 0 0 5px #00ff00; }
+.theme-hacker .dialog-box { background-color: #000; border: 1px solid #00ff00; box-shadow: 0 0 20px #00ff00; color: #00ff00; }

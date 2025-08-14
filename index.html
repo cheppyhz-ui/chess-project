@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="manifest" href="./manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+    <div id="initial-screen" class="screen">
+        <div class="main-menu-container">
+            <div class="game-title">CHESS</div>
+            <p class="game-subtitle">A Classic Strategy Game</p>
+            <div class="menu-buttons">
+                <button id="btn-start-flow" class="menu-btn">Mulai Game</button>
+                <button id="btn-options-flow" class="menu-btn secondary">Opsi</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-screen" class="screen hidden">
+        <div class="game-layout">
+            <main class="board-area">
+                <div id="papan-catur"></div>
+            </main>
+            <aside class="side-panel">
+                <div class="panel-header">
+                    <button id="tombol-game-baru">Game Baru</button>
+                    <button id="btn-back-to-menu">Menu Utama</button>
+                </div>
+                <div id="info-giliran"></div>
+                <div class="captured-pieces-area">
+                    <div>
+                        <h4 id="label-bidak-dimakan-putih" class="captured-pieces-header">Bidak Dimakan oleh Putih</h4>
+                        <div id="bidak-dimakan-putih" class="captured-box"></div>
+                    </div>
+                    <div>
+                        <h4 id="label-bidak-dimakan-hitam" class="captured-pieces-header">Bidak Dimakan oleh Hitam</h4>
+                        <div id="bidak-dimakan-hitam" class="captured-box"></div>
+                    </div>
+                </div>
+                <div class="history-area">
+                    <h3>Riwayat Gerakan</h3>
+                    <ol id="daftar-riwayat"></ol>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div id="game-mode-overlay" class="overlay-container hidden">
+        <div class="dialog-box">
+            <h3>Pilih Mode Permainan</h3>
+            <div class="dialog-buttons">
+                <button id="btn-vs-player">Pemain vs Pemain</button>
+                <button id="btn-vs-ai">Pemain vs AI</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="player-names-overlay" class="overlay-container hidden">
+        <div class="dialog-box">
+            <h3>Masukkan Nama Pemain</h3>
+            <div class="name-input-container">
+                <div class="name-input-group">
+                    <label for="input-nama-putih">Pemain 1 (Putih)</label>
+                    <input type="text" id="input-nama-putih" placeholder="Nama Pemain Putih" maxlength="20">
+                </div>
+                <div class="name-input-group">
+                    <label for="input-nama-hitam">Pemain 2 (Hitam)</label>
+                    <input type="text" id="input-nama-hitam" placeholder="Nama Pemain Hitam" maxlength="20">
+                </div>
+            </div>
+            <div class="dialog-buttons">
+                 <button id="btn-start-pvp-game">Mulai Bermain</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="color-choice-overlay" class="overlay-container hidden">
+        <div class="dialog-box">
+            <h3>Pilih Warna Bidak Anda</h3>
+            <div class="dialog-buttons">
+                <button id="btn-play-white">Main Sebagai Putih</button>
+                <button id="btn-play-black">Main Sebagai Hitam</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="options-overlay" class="overlay-container hidden">
+        <div class="dialog-box">
+            <h3>Opsi Tampilan</h3>
+            <p>Pilih tema visual untuk permainan.</p>
+            <div class="theme-selector">
+                <button class="theme-btn" data-theme="default" title="Premium">検</button>
+                <button class="theme-btn" data-theme="classic" title="Klasik">ｪｵ</button>
+                <button class="theme-btn" data-theme="minimalist" title="Minimalis">笞ｪ</button>
+                <button class="theme-btn" data-theme="hacker" title="Terminal">董</button>
+            </div>
+            <button id="btn-close-options" class="dialog-close-btn">Tutup</button>
+        </div>
+    </div>
+
+    <div id="promosi-overlay" class="overlay-container hidden">
+        <div class="dialog-box">
+            <p>Pilih Bidak Promosi:</p>
+            <div class="pilihan-bidak">
+                <img src="images/queen-w.png" alt="Ratu" data-bidak="q">
+                <img src="images/rook-w.png" alt="Benteng" data-bidak="r">
+                <img src="images/bishop-w.png" alt="Gajah" data-bidak="b">
+                <img src="images/knight-w.png" alt="Kuda" data-bidak="n">
+            </div>
+        </div>
+    </div>
+    
+    <script src="./script.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            // DAN DI SINI
+            navigator.serviceWorker.register('./service-worker.js').then(registration => {
+                console.log('ServiceWorker berhasil didaftarkan: ', registration);
+            }).catch(registrationError => {
+                console.log('Pendaftaran ServiceWorker gagal: ', registrationError);
+            });
+        });
+    }
+</script>
+</body>
+</html>

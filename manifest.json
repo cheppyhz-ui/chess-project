@@ -1,0 +1,22 @@
+{
+  "name": "Game Catur Keren",
+  "short_name": "Catur",
+  "description": "Sebuah aplikasi game catur yang dibuat dengan JavaScript.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f3f3",
+  "theme_color": "#b58863",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
