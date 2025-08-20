@@ -388,6 +388,34 @@ body {
     animation: animasi-menang 0.6s ease-in-out;
 }
 
+/* =================================================================== */
+/* === GAYA UNTUK TIMER ============================================== */
+/* =================================================================== */
+
+.timer-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.timer-container {
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.timer-label {
+    display: block;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.timer-display {
+    font-size: 1.8em;
+    font-weight: 600;
+}
 
 /* =================================================================== */
 /* === TEMA 1: PREMIUM (Default) ===================================== */
@@ -424,6 +452,10 @@ body {
 .theme-default #daftar-riwayat li:nth-child(odd) { background-color: rgba(0,0,0,0.2); border-radius: 4px; }
 .theme-default .dialog-box { background: rgba(30, 30, 30, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 215, 0, 0.5); color: #fff; }
 .theme-default .dialog-box button { background:#fff; color:#333; border:none; border-radius:8px }
+.theme-default .timer-container { background-color: rgba(0,0,0,0.2); }
+.theme-default .timer-container.active { background-color: rgba(255, 215, 0, 0.2); box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+.theme-default .timer-container.low-time { color: #ff4d4d; }
+
 
 /* =================================================================== */
 /* === TEMA 2: KLASIK ================================================ */
@@ -442,6 +474,10 @@ body {
 .theme-classic .captured-box { background-color: rgba(0,0,0,0.2); }
 .theme-classic #daftar-riwayat li:nth-child(odd) { background-color: rgba(0,0,0,0.2); }
 .theme-classic .dialog-box { background-color: #5a3e2b; border: 2px solid #c5a157; color: #fff; }
+.theme-classic .timer-container { background-color: #6b4c35; }
+.theme-classic .timer-container.active { background-color: #c5a157; color: #211a13; }
+.theme-classic .timer-container.low-time { color: #ff6b6b; }
+
 
 /* =================================================================== */
 /* === TEMA 3: MINIMALIS (Neumorphism) =============================== */
@@ -460,6 +496,10 @@ body {
 .theme-minimalist .captured-box { background-color: #d1d9e6; box-shadow: inset 2px 2px 5px #b8b9be, inset -2px -2px 5px #fff; }
 .theme-minimalist .dialog-box { background: #e0e5ec; color: #5b667a; border-radius: 20px; box-shadow: 10px 10px 20px #a3b1c6, -10px -10px 20px #ffffff; }
 .theme-minimalist .pilihan-bidak img { background: #e0e5ec; box-shadow: 4px 4px 10px #a3b1c6, -4px -4px 10px #ffffff; }
+.theme-minimalist .timer-container { background: #e0e5ec; box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff; }
+.theme-minimalist .timer-container.active { color: #3d4757; }
+.theme-minimalist .timer-container.low-time { color: #d9534f; }
+
 
 /* =================================================================== */
 /* === TEMA 4: HACKER ================================================ */
@@ -477,6 +517,10 @@ body {
 .theme-hacker .theme-btn.active { border-color: #00ff00; }
 .theme-hacker h3, .theme-hacker #info-giliran { text-shadow: 0 0 5px #00ff00; }
 .theme-hacker .dialog-box { background-color: #000; border: 1px solid #00ff00; box-shadow: 0 0 20px #00ff00; color: #00ff00; }
+.theme-hacker .timer-container { border: 1px solid #00ff00; }
+.theme-hacker .timer-container.active { background-color: #00ff00; color: #000; text-shadow: none; }
+.theme-hacker .timer-container.low-time { color: #ff0000; animation: blink 1s step-end infinite; }
+
 
 /* =================================================================== */
 /* === RESPONSIVE DESIGN UNTUK LAYAR KECIL (HP) ====================== */

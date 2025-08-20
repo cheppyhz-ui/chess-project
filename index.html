@@ -30,6 +30,18 @@
                     <button id="tombol-game-baru">Game Baru</button>
                     <button id="btn-back-to-menu">Menu Utama</button>
                 </div>
+
+                <div class="timer-area">
+                    <div id="timer-putih-container" class="timer-container">
+                        <span id="timer-label-putih" class="timer-label">Waktu Putih</span>
+                        <div id="timer-putih" class="timer-display">10:00</div>
+                    </div>
+                    <div id="timer-hitam-container" class="timer-container">
+                        <span id="timer-label-hitam" class="timer-label">Waktu Hitam</span>
+                        <div id="timer-hitam" class="timer-display">10:00</div>
+                    </div>
+                </div>
+
                 <div id="info-giliran"></div>
                 <div class="captured-pieces-area">
                     <div>
@@ -119,7 +131,6 @@
 <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            // DAN DI SINI
             navigator.serviceWorker.register('./service-worker.js').then(registration => {
                 console.log('ServiceWorker berhasil didaftarkan: ', registration);
             }).catch(registrationError => {

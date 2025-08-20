@@ -33,6 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const areaBidakDimakanHitam = document.getElementById('bidak-dimakan-hitam');
     const labelBidakDimakanHitam = document.getElementById('label-bidak-dimakan-hitam');
     const themeButtons = document.querySelectorAll('.theme-btn');
+    const timerPutihContainer = document.getElementById('timer-putih-container');
+    const timerHitamContainer = document.getElementById('timer-hitam-container');
+    const timerPutihElement = document.getElementById('timer-putih');
+    const timerHitamElement = document.getElementById('timer-hitam');
+    const timerLabelPutih = document.getElementById('timer-label-putih');
+    const timerLabelHitam = document.getElementById('timer-label-hitam');
+
 
     // === STATE APLIKASI ===
     let isPemainVsAI = false;
@@ -59,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnCloseOptions.addEventListener('click', hideAllOverlays);
     btnBackToMenu.addEventListener('click', () => {
         if (aiWorker) aiWorker.terminate();
+        stopTimer();
         showScreen('initial-screen');
     });
     btnVsPlayer.addEventListener('click', () => { hideAllOverlays(); showOverlay('player-names-overlay'); });
@@ -92,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     tombolGameBaru.addEventListener('click', () => {
          if (aiWorker) aiWorker.terminate();
+         stopTimer();
          showOverlay('game-mode-overlay');
     });
 
@@ -111,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================================================
     
     let papanSekarang, kotakTerpilih, gerakanSah, giliranSekarang, isGameOver, pionUntukPromosi, statusGerakan, riwayatGerakan, bidakDimakan;
+    let timerPutih, timerHitam, timerInterval;
+    const WAKTU_AWAL = 600; // 600 detik = 10 menit
     
     const KEDALAMAN_PENCARIAN = 3;
     const KEDALAMAN_QUIESCENCE = 3;
@@ -152,17 +163,76 @@ document.addEventListener('DOMContentLoaded', () => {
             aiWorker = null;
         };
     }
+    
+    // FUNGSI-FUNGSI BARU UNTUK TIMER
+    function formatWaktu(detik) {
+        const menit = Math.floor(detik / 60);
+        const sisaDetik = detik % 60;
+        return `${menit.toString().padStart(2, '0')}:${sisaDetik.toString().padStart(2, '0')}`;
+    }
+
+    function updateTimerDisplay() {
+        timerPutihElement.textContent = formatWaktu(timerPutih);
+        timerHitamElement.textContent = formatWaktu(timerHitam);
+
+        timerPutihContainer.classList.toggle('active', giliranSekarang === 'putih' && !isGameOver);
+        timerHitamContainer.classList.toggle('active', giliranSekarang === 'hitam' && !isGameOver);
+        
+        timerPutihContainer.classList.toggle('low-time', timerPutih <= 30);
+        timerHitamContainer.classList.toggle('low-time', timerHitam <= 30);
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+    }
+
+    function handleTimeOut() {
+        stopTimer();
+        isGameOver = true;
+        const pemenang = giliranSekarang === 'putih' ? namaPemainHitam : namaPemainPutih;
+        const warnaKalah = giliranSekarang === 'putih' ? 'Putih' : 'Hitam';
+        updateInfoGiliran(`${warnaKalah} kehabisan waktu! ${pemenang} menang.`);
+        updateTimerDisplay(); // Hapus status 'active'
+    }
+
+    function startTimer() {
+        stopTimer(); // Hentikan timer sebelumnya
+        if (isGameOver) return;
+
+        timerInterval = setInterval(() => {
+            if (giliranSekarang === 'putih') {
+                timerPutih--;
+                if (timerPutih <= 0) handleTimeOut();
+            } else {
+                timerHitam--;
+                if (timerHitam <= 0) handleTimeOut();
+            }
+            updateTimerDisplay();
+        }, 1000);
+    }
 
     function mulaiGameBaru() {
         papanSekarang = papanAwal.map(b => b.slice());
         kotakTerpilih = null; gerakanSah = []; giliranSekarang = 'putih'; isGameOver = false; pionUntukPromosi = null;
         statusGerakan = { K: false, R_a1: false, R_h1: false, k: false, r_a8: false, r_h8: false };
         riwayatGerakan = []; bidakDimakan = { putih: [], hitam: [] };
+        
+        stopTimer();
+        timerPutih = WAKTU_AWAL;
+        timerHitam = WAKTU_AWAL;
+        
         hideAllOverlays();
         labelBidakDimakanPutih.textContent = `${namaPemainPutih} (Putih)`;
         labelBidakDimakanHitam.textContent = `${namaPemainHitam} (Hitam)`;
+        timerLabelPutih.textContent = namaPemainPutih;
+        timerLabelHitam.textContent = namaPemainHitam;
+        
         updateInfoGiliran(); 
         updateTampilanSetelahGerakan();
+        
+        updateTimerDisplay();
+        startTimer();
+
         if (isPemainVsAI && giliranSekarang !== playerColor) {
             buatGerakanAI();
         }
@@ -259,6 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
         giliranSekarang = (giliranSekarang === 'putih') ? 'hitam' : 'putih';
         updateInfoGiliran();
         if (!periksaAkhirPermainan()) {
+            startTimer();
             if (isPemainVsAI && giliranSekarang !== playerColor) {
                 buatGerakanAI();
             }
@@ -358,6 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalGerakanSah = getAllGerakanMungkin(warnaPemain, papanSekarang, false, statusGerakan).length;
         if (totalGerakanSah === 0) {
             isGameOver = true;
+            stopTimer();
             if (isRajaSkak(warnaPemain, papanSekarang, statusGerakan)) {
                 const namaPemenang = warnaPemain === 'putih' ? namaPemainHitam : namaPemainPutih;
                 updateInfoGiliran(`Skakmat! ${namaPemenang} Menang.`);
